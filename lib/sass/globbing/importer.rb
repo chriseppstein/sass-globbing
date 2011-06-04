@@ -1,4 +1,5 @@
 require 'pathname'
+require 'singleton'
 
 class Sass::Globbing::Importer < Sass::Importers::Filesystem
 
