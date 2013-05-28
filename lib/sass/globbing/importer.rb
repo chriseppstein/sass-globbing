@@ -27,6 +27,7 @@ class Sass::Globbing::Importer < Sass::Importers::Filesystem
   def find_relative(name, base, options)
     if name =~ GLOB
       contents = ""
+      base = base.gsub(File::ALT_SEPARATOR, File::SEPARATOR) if File::ALT_SEPARATOR
       base_pathname = Pathname.new(base)
       each_globbed_file(name, base_pathname, options) do |filename|
         contents << "@import #{Pathname.new(filename).relative_path_from(base_pathname.dirname).to_s.inspect};\n"
