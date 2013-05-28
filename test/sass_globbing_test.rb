@@ -6,7 +6,8 @@ class SassGlobbingTest < Test::Unit::TestCase
 
   def test_can_import_globbed_files
     css = render_file("all.sass")
-    assert_match css, /deeply-nested/
+    assert_match /deeply-nested/, css
+    assert_match %r{No files to import found in doesnotexist/\*\\/foo\.\*}, css
   end
 
 private

@@ -31,7 +31,7 @@ class Sass::Globbing::Importer < Sass::Importers::Filesystem
       each_globbed_file(name, base_pathname, options) do |filename|
         contents << "@import #{Pathname.new(filename).relative_path_from(base_pathname.dirname).to_s.inspect};\n"
       end
-      return nil if contents.empty?
+      contents = "/* No files to import found in #{comment_safe(name)} */" if contents.empty?
       Sass::Engine.new(contents, options.merge(
         :filename => base_pathname.to_s,
         :importer => self,
@@ -75,6 +75,12 @@ class Sass::Globbing::Importer < Sass::Importers::Filesystem
   
   def to_s
     "Sass::Globbing::Importer"
+  end
+
+  protected
+
+  def comment_safe(string)
+    string.gsub(%r{\*/}, "*\\/")
   end
   
 end
