@@ -12,12 +12,15 @@ class SassGlobbingTest < Test::Unit::TestCase
 
 private
   def render_file(filename)
-    full_filename = File.expand_path("fixtures/#{filename}", File.dirname(__FILE__))
+    fixtures_dir = File.expand_path("fixtures", File.dirname(__FILE__))
+    full_filename = File.expand_path(filename, fixtures_dir)
     syntax = File.extname(full_filename)[1..-1].to_sym
-    Sass::Engine.new(File.read(full_filename),
-      :syntax => syntax,
-      :filename => full_filename,
-      :cache => false,
-      :read_cache => false).render
+    engine = Sass::Engine.new(File.read(full_filename),
+                              :syntax => syntax,
+                              :filename => full_filename,
+                              :cache => false,
+                              :read_cache => false,
+                              :load_paths => [fixtures_dir])
+    engine.render
   end
 end

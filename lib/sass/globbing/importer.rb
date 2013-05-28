@@ -24,13 +24,16 @@ class Sass::Globbing::Importer < Sass::Importers::Filesystem
     SASS_EXTENSIONS[File.extname(filename.to_s)]
   end
   
-  def find_relative(name, base, options)
+  def find_relative(name, base, options, absolute = false)
     if name =~ GLOB
       contents = ""
       base = base.gsub(File::ALT_SEPARATOR, File::SEPARATOR) if File::ALT_SEPARATOR
       base_pathname = Pathname.new(base)
       each_globbed_file(name, base_pathname, options) do |filename|
         contents << "@import #{Pathname.new(filename).relative_path_from(base_pathname.dirname).to_s.inspect};\n"
+      end
+      if contents.empty? && !absolute
+        return nil
       end
       contents = "/* No files to import found in #{comment_safe(name)} */" if contents.empty?
       Sass::Engine.new(contents, options.merge(
@@ -39,13 +42,15 @@ class Sass::Globbing::Importer < Sass::Importers::Filesystem
         :syntax => :scss
       ))
     else
-      super
+      super(name, base, options)
     end
   end
   
   def find(name, options)
     if options[:filename] # globs must be relative
-      find_relative(name, options[:filename], options)
+      find_relative(name, options[:filename], options, true)
+    else
+      nil
     end
   end
   

@@ -5,8 +5,8 @@ class Sass::Engine
   
   def initialize(template, options={})
     old_initialize(template, options)
-    unless self.options[:load_paths].include?(Sass::Globbing::Importer.instance)
-      self.options[:load_paths].push Sass::Globbing::Importer.instance
-    end
+    self.options[:load_paths].delete(Sass::Globbing::Importer.instance) # in case it's there
+    self.options[:load_paths] << Sass::Globbing::Importer.instance
   end
 end
+
