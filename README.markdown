@@ -1,5 +1,21 @@
 # Sass Globbing Plugin
 
+Sass globbing allows you to import many sass or scss files in a single import statement.
+
+## Stylesheet Syntax
+
+Import a folder of files:
+
+    @import "library/mixins/*"
+
+Import a tree of files:
+
+    @import "library/**/*"
+
+Globbed files are sorted alphabetically before importing them.
+
+Globs are always relative to the current file. The ruby glob file syntax is used, read the [docs][globbing_docs] for more that you can do with it.
+
 ## Installation
 
     $ gem install sass-globbing
@@ -17,20 +33,6 @@ Add the following to your compass configuration:
 ## Use with Ruby on Rails
 
 Ruby on Rails has this capability out of the box starting in Rails 3.1. Do not install this plugin if you use Rails 3.1 or greater.
-
-## Stylesheet Syntax
-
-Import a folder of files:
-
-    @import "library/mixins/*"
-
-Import a tree of files:
-
-    @import "library/**/*"
-
-Globbed files are sorted alphabetically before importing them.
-
-Globs are always relative to the current file. The ruby glob file syntax is used, read the [docs][globbing_docs] for more that you can do with it.
 
 ## Caveats
 
