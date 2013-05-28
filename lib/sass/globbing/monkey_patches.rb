@@ -6,7 +6,7 @@ class Sass::Engine
   def initialize(template, options={})
     old_initialize(template, options)
     unless self.options[:load_paths].include?(Sass::Globbing::Importer.instance)
-      self.options[:load_paths].unshift Sass::Globbing::Importer.instance
+      self.options[:load_paths].push Sass::Globbing::Importer.instance
     end
   end
 end
