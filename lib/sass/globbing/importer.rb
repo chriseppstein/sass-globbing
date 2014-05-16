@@ -24,23 +24,9 @@ class Sass::Globbing::Importer < Sass::Importers::Filesystem
     SASS_EXTENSIONS[File.extname(filename.to_s)]
   end
   
-  def find_relative(name, base, options, absolute = false)
+  def find_relative(name, base, options)
     if name =~ GLOB
-      contents = ""
-      base = base.gsub(File::ALT_SEPARATOR, File::SEPARATOR) if File::ALT_SEPARATOR
-      base_pathname = Pathname.new(base)
-      each_globbed_file(name, base_pathname, options) do |filename|
-        contents << "@import #{Pathname.new(filename).relative_path_from(base_pathname.dirname).to_s.inspect};\n"
-      end
-      if contents.empty? && !absolute
-        return nil
-      end
-      contents = "/* No files to import found in #{comment_safe(name)} */" if contents.empty?
-      Sass::Engine.new(contents, options.merge(
-        :filename => base_pathname.to_s,
-        :importer => self,
-        :syntax => :scss
-      ))
+      find_glob(name, base, options) { nil }
     else
       super(name, base, options)
     end
@@ -48,7 +34,11 @@ class Sass::Globbing::Importer < Sass::Importers::Filesystem
   
   def find(name, options)
     if options[:filename] # globs must be relative
-      find_relative(name, options[:filename], options, true)
+      if name =~ GLOB
+        find_glob(name, options[:filename], options) { "/* No files to import found in #{comment_safe(name)} */" }
+      else
+        super(name, options)
+      end
     else
       nil
     end
@@ -85,8 +75,23 @@ class Sass::Globbing::Importer < Sass::Importers::Filesystem
 
   protected
 
+  def find_glob(name, base, options)
+    contents = ""
+    base = base.gsub(File::ALT_SEPARATOR, File::SEPARATOR) if File::ALT_SEPARATOR
+    base_pathname = Pathname.new(base)
+    each_globbed_file(name, base_pathname, options) do |filename|
+      contents << "@import #{Pathname.new(filename).relative_path_from(base_pathname.dirname).to_s.inspect};\n"
+    end
+    contents = yield if contents.empty?
+    return nil if contents.nil? || contents.empty?
+    Sass::Engine.new(contents, options.merge(
+      :filename => base_pathname.dirname.join(Pathname.new(name)).to_s,
+      :importer => self,
+      :syntax => :scss
+    ))
+  end
+
   def comment_safe(string)
     string.gsub(%r{\*/}, "*\\/")
   end
-  
 end

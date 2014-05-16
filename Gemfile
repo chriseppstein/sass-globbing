@@ -4,4 +4,4 @@ source "http://rubygems.org"
 gemspec
 
 gem 'rake'
-gem 'sass', :path => "/Users/chris/Projects/sass"
+gem 'sass'
