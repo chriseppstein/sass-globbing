@@ -1,3 +1,9 @@
+# 1.1.1
+
+* Fix importing issues when using import-once with sass-globbing
+* Fix mtime checks so that globs don't force recompiles of unchanged
+  sass files.
+
 # 1.1.0
 
 * Add the ability for a glob to not match any files. Instead a css
