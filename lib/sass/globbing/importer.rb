@@ -54,7 +54,12 @@ class Sass::Globbing::Importer < Sass::Importers::Filesystem
   def mtime(name, options)
     if name =~ GLOB && options[:filename]
       mtime = nil
-      each_globbed_file(name, Pathname.new(options[:filename]), options) do |p|
+      base_pathname = Pathname.new(options[:filename])
+      name_pathname = Pathname.new(name)
+      if name_pathname.absolute?
+        name = name_pathname.relative_path_from(base_pathname.dirname).to_s
+      end
+      each_globbed_file(name, base_pathname, options) do |p|
         if mtime.nil?
           mtime = File.mtime(p)
         else
