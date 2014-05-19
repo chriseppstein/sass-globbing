@@ -92,7 +92,8 @@ class Sass::Globbing::Importer < Sass::Importers::Filesystem
     Sass::Engine.new(contents, options.merge(
       :filename => base_pathname.dirname.join(Pathname.new(name)).to_s,
       :importer => self,
-      :syntax => :scss
+      :syntax => :scss,
+      :load_paths => [base_pathname.dirname]
     ))
   end
 
