@@ -85,13 +85,14 @@ class Sass::Globbing::Importer < Sass::Importers::Filesystem
     base = base.gsub(File::ALT_SEPARATOR, File::SEPARATOR) if File::ALT_SEPARATOR
     base_pathname = Pathname.new(base)
     each_globbed_file(name, base_pathname, options) do |filename|
-      contents << "@import #{Pathname.new(filename).to_s.inspect};\n"
+      contents << "@import #{Pathname.new(filename).relative_path_from(base_pathname.dirname).to_s.inspect};\n"
     end
     contents = yield if contents.empty?
     return nil if contents.nil? || contents.empty?
     Sass::Engine.new(contents, options.merge(
       :filename => base_pathname.dirname.join(Pathname.new(name)).to_s,
       :importer => self,
+      :load_paths => [base_pathname.dirname],
       :syntax => :scss
     ))
   end
