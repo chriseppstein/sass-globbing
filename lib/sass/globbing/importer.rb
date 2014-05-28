@@ -19,11 +19,11 @@ class Sass::Globbing::Importer < Sass::Importers::Filesystem
   def sass_file?(filename)
     SASS_EXTENSIONS.has_key?(File.extname(filename.to_s))
   end
-  
+
   def syntax(filename)
     SASS_EXTENSIONS[File.extname(filename.to_s)]
   end
-  
+
   def find_relative(name, base, options)
     if name =~ GLOB
       find_glob(name, base, options) { nil }
@@ -31,7 +31,7 @@ class Sass::Globbing::Importer < Sass::Importers::Filesystem
       super(name, base, options)
     end
   end
-  
+
   def find(name, options)
     if options[:filename] # globs must be relative
       if name =~ GLOB
@@ -43,14 +43,14 @@ class Sass::Globbing::Importer < Sass::Importers::Filesystem
       nil
     end
   end
-  
+
   def each_globbed_file(glob, base_pathname, options)
     Dir["#{base_pathname.dirname}/#{glob}"].sort.each do |filename|
       next if filename == options[:filename]
       yield filename if sass_file?(filename)
     end
   end
-  
+
   def mtime(name, options)
     if name =~ GLOB && options[:filename]
       mtime = nil
@@ -69,11 +69,11 @@ class Sass::Globbing::Importer < Sass::Importers::Filesystem
       mtime
     end
   end
-  
+
   def key(name, options)
     ["Glob:" + File.dirname(File.expand_path(name)), File.basename(name)]
   end
-  
+
   def to_s
     "Sass::Globbing::Importer"
   end
@@ -85,7 +85,7 @@ class Sass::Globbing::Importer < Sass::Importers::Filesystem
     base = base.gsub(File::ALT_SEPARATOR, File::SEPARATOR) if File::ALT_SEPARATOR
     base_pathname = Pathname.new(base)
     each_globbed_file(name, base_pathname, options) do |filename|
-      contents << "@import #{Pathname.new(filename).relative_path_from(base_pathname.dirname).to_s.inspect};\n"
+      contents << "@import #{Pathname.new(filename).to_s.inspect};\n"
     end
     contents = yield if contents.empty?
     return nil if contents.nil? || contents.empty?
