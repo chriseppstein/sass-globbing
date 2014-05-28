@@ -39,4 +39,4 @@ Ruby on Rails has this capability out of the box starting in Rails 3.1. Do not i
 CSS is order dependent, as such, using this approach within your stylesheets to import styles that depend on the stylesheet's cascade creates an opportunity for styles to change more unpredictably than a manually asserted order. It is recommended that you only use globbing where order is unimportant; E.g. importing of library files.
 
 
-[globbing_docs]: http://ruby-doc.org/core/classes/Dir.html#M000629
+[globbing_docs]: http://ruby-doc.org/core/classes/Dir.html#method-c-glob
