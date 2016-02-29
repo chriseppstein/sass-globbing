@@ -1,6 +1,14 @@
+# 1.1.4
+
+# Add LICENSE file (MIT).
+
+
 # 1.1.3
 
 * Fix globbing importing path correctly.
+* Fix homepage of project on rubygems.org.
+* Fix resolution of globs in some cases where other imports should have
+  a chance to resolve the glob first.
 
 # 1.1.2
 
