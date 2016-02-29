@@ -1,3 +1,7 @@
+# 1.1.3
+
+* Fix globbing importing path correctly.
+
 # 1.1.2
 
 * Fix globbing importing path
