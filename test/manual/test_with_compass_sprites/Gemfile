@@ -1,0 +1,2 @@
+gem "sass-globbing", :path => "../.."
+gem "compass"

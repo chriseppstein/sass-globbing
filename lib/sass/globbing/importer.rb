@@ -25,11 +25,7 @@ class Sass::Globbing::Importer < Sass::Importers::Filesystem
   end
 
   def find_relative(name, base, options)
-    if name =~ GLOB
-      find_glob(name, base, options) { nil }
-    else
-      super(name, base, options)
-    end
+    nil
   end
 
   def find(name, options)
