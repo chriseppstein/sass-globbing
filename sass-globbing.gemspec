@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/chriseppstein/sass-globbing"
   s.summary     = %q{Allows use of globs in Sass @import directives.}
   s.description = %q{Allows use of globs in Sass @import directives.}
+  s.license     = 'MIT'
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- test/*`.split("\n")
