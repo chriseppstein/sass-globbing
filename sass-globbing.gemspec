@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Chris Eppstein"]
   s.email       = ["chris@eppsteins.net"]
-  s.homepage    = "http://chriseppstein.github.com/"
+  s.homepage    = "https://github.com/chriseppstein/sass-globbing"
   s.summary     = %q{Allows use of globs in Sass @import directives.}
   s.description = %q{Allows use of globs in Sass @import directives.}
 
