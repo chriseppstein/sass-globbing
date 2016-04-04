@@ -5,9 +5,15 @@ require 'sass-globbing'
 class SassGlobbingTest < Test::Unit::TestCase
 
   def test_can_import_globbed_files
-    css = render_file("all.sass")
+    css, _ = render_file("all.sass")
     assert_match /deeply-nested/, css
     assert_match %r{No files to import found in doesnotexist/\*\\/foo\.\*}, css
+  end
+
+  def test_inline_sourcemap_has_content
+    _, sourcemap = render_file("all.sass")
+    sourcemap_json = sourcemap.to_json(:css_uri => 'css_uri', :type => :inline)
+    assert_match /\.deeply-nested/, sourcemap_json
   end
 
 private
@@ -21,6 +27,6 @@ private
                               :cache => false,
                               :read_cache => false,
                               :load_paths => [fixtures_dir])
-    engine.render
+    engine.render_with_sourcemap("sourcemap_uri")
   end
 end

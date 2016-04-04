@@ -40,7 +40,7 @@ class Sass::Globbing::Importer < Sass::Importers::Filesystem
         super(name, options)
       end
     else
-      nil
+      super(name, options)
     end
   end
 
