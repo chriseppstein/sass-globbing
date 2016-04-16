@@ -6,11 +6,15 @@ Sass globbing allows you to import many sass or scss files in a single import st
 
 Import a folder of files:
 
-    @import "library/mixins/*"
+```scss
+@import "library/mixins/*"
+```
 
 Import a tree of files:
 
-    @import "library/**/*"
+```scss
+@import "library/**/*"
+```
 
 Globbed files are sorted alphabetically before importing them.
 
@@ -28,12 +32,25 @@ Globs are always relative to the current file. The ruby glob file syntax is used
 
 Add the following to your compass configuration:
 
-    require 'sass-globbing'
+```ruby
+require 'sass-globbing'
+```
 
 ## Use with Ruby on Rails
 
 Ruby on Rails has this capability out of the box starting in Rails 3.1. Do not install this plugin if you use Rails 3.1 or greater.
 
+## Use with plain Ruby
+
+When using in plain ruby, be sure to pass the `filename` option since it is used in determining the import path:
+
+```ruby
+require 'sass-globbing'
+
+file    = "path/to.scss"
+options = { filename: file, syntax: :scss, ... }
+css     = Sass::Engine.new(File.read(file), options).render
+```
 ## Caveats
 
 CSS is order dependent, as such, using this approach within your stylesheets to import styles that depend on the stylesheet's cascade creates an opportunity for styles to change more unpredictably than a manually asserted order. It is recommended that you only use globbing where order is unimportant; E.g. importing of library files.
