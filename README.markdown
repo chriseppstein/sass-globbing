@@ -34,6 +34,11 @@ Add the following to your compass configuration:
 
 Ruby on Rails has this capability out of the box starting in Rails 3.1. Do not install this plugin if you use Rails 3.1 or greater.
 
+## Use with Middleman 4
+
+    gem 'sass', '~> 3.4'
+    gem 'sass-globbing'
+
 ## Caveats
 
 CSS is order dependent, as such, using this approach within your stylesheets to import styles that depend on the stylesheet's cascade creates an opportunity for styles to change more unpredictably than a manually asserted order. It is recommended that you only use globbing where order is unimportant; E.g. importing of library files.
